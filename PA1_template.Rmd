@@ -22,7 +22,7 @@ steps_per_day<-aggregate(steps~date,filename,FUN = sum)
 ```
 
 1.Make a histogram of the total number of steps taken each day
-```{r histogram, echo=TRUE}
+```{r histogram, echo=TRUE, message=FALSE}
 ggplot(steps_per_day,aes(steps)) +geom_histogram(fill=NA, color="blue") + labs(title="Total number of steps per day")        +labs(x="steps")
 ```
 
@@ -47,19 +47,18 @@ plot(steps_per_interval$interval,steps_per_interval$averagesteps,type="l",xlab="
 2.Which 5-minute interval, on average across all the days in the dataset, contains the maximum number of steps?
 ```{r maxinterval,echo=TRUE}
 maxinterval<-steps_per_interval[which.max(steps_per_interval$averagesteps),] ## finding the maximum interval
-maxinterval
+print(paste("The interval contains  maximum number of steps:",maxinterval$interval))
 ```
-The average number of steps are 206.1698.And the 835 th interval contains these maximum number of steps..
+
 
 ## Imputing missing values
 
 1.Calculate and report the total number of missing values in the dataset (i.e. the total number of rows with NAs)
 ```{r missing values,echo=TRUE}
   total<-sum(is.na(filename))
-  total
+  print(paste("The total number of NA's are:",total))
 
 ```
-The total number of NA's in the dataset are 2304.
 
 2.Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 ```{r filling , echo=TRUE}
@@ -86,11 +85,11 @@ for(i in 1:nrow(data))
 new_steps_per_day<-aggregate(steps~date,newdata,FUN = sum)
 mean(new_steps_per_day$steps)
 median(new_steps_per_day$steps)
+print("Yes , the values differ slightly.looking at the means and medians before and after filling the NA values ,thtey look same.")
 ```
-Yes , the values differ slightly.looking at the means and medians before and after filling the NA values ,thtey look same.
 
 Plotting a histogram for the data with  NA values are filled in
-```{r histogram2,echo=TRUE}
+```{r histogram2,echo=TRUE, message=FALSE}
 ggplot(new_steps_per_day,aes(steps)) +geom_histogram(fill=NA, color="red") + labs(title="Total number of steps per day with NA values filled in")
 ```
 
