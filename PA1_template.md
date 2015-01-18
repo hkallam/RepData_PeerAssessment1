@@ -24,10 +24,6 @@ steps_per_day<-aggregate(steps~date,filename,FUN = sum)
 ggplot(steps_per_day,aes(steps)) +geom_histogram(fill=NA, color="blue") + labs(title="Total number of steps per day")        +labs(x="steps")
 ```
 
-```
-## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
-```
-
 ![plot of chunk histogram](./PA1_template_files/figure-html/histogram.png) 
 
 2.Calculate and report the mean and median total number of steps taken per day
@@ -68,14 +64,13 @@ plot(steps_per_interval$interval,steps_per_interval$averagesteps,type="l",xlab="
 
 ```r
 maxinterval<-steps_per_interval[which.max(steps_per_interval$averagesteps),] ## finding the maximum interval
-maxinterval
+print(paste("The interval contains  maximum number of steps:",maxinterval$interval))
 ```
 
 ```
-##     interval averagesteps
-## 104      835        206.2
+## [1] "The interval contains  maximum number of steps: 835"
 ```
-The average number of steps are 206.1698.And the 835 th interval contains these maximum number of steps..
+
 
 ## Imputing missing values
 
@@ -83,13 +78,12 @@ The average number of steps are 206.1698.And the 835 th interval contains these 
 
 ```r
   total<-sum(is.na(filename))
-  total
+  print(paste("The total number of NA's are:",total))
 ```
 
 ```
-## [1] 2304
+## [1] "The total number of NA's are: 2304"
 ```
-The total number of NA's in the dataset are 2304.
 
 2.Devise a strategy for filling in all of the missing values in the dataset. The strategy does not need to be sophisticated. For example, you could use the mean/median for that day, or the mean for that 5-minute interval, etc.
 
@@ -130,16 +124,19 @@ median(new_steps_per_day$steps)
 ```
 ## [1] 10766
 ```
-Yes , the values differ slightly.looking at the means and medians before and after filling the NA values ,thtey look same.
+
+```r
+print("Yes , the values differ slightly.looking at the means and medians before and after filling the NA values ,thtey look same.")
+```
+
+```
+## [1] "Yes , the values differ slightly.looking at the means and medians before and after filling the NA values ,thtey look same."
+```
 
 Plotting a histogram for the data with  NA values are filled in
 
 ```r
 ggplot(new_steps_per_day,aes(steps)) +geom_histogram(fill=NA, color="red") + labs(title="Total number of steps per day with NA values filled in")
-```
-
-```
-## stat_bin: binwidth defaulted to range/30. Use 'binwidth = x' to adjust this.
 ```
 
 ![plot of chunk histogram2](./PA1_template_files/figure-html/histogram2.png) 
